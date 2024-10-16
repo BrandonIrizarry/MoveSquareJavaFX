@@ -14,8 +14,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import xyz.brandonirizarry.movesquare.game.Game;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayDeque;
+import java.util.Queue;
 
 public class Main extends Application {
     private static final int NUM_ROWS = 5;
@@ -24,8 +24,8 @@ public class Main extends Application {
     private static final double BOARD_HEIGHT = NUM_ROWS * SQUARE_UNIT;
     private static final double BOARD_WIDTH = NUM_COLUMNS * SQUARE_UNIT;
 
-    private static Game game = new Game(NUM_ROWS, NUM_COLUMNS);
-    private static final Map<KeyCode, Boolean> keys = new HashMap<>();
+    private static final Game game = new Game(NUM_ROWS, NUM_COLUMNS);
+    private static final Queue<KeyCode> keyPresses = new ArrayDeque<>();
 
     public static void main(String[] args) {
         launch(args);
@@ -37,17 +37,14 @@ public class Main extends Application {
 
         var canvas = new Canvas(BOARD_WIDTH, BOARD_HEIGHT);
         canvas.setFocusTraversable(true);
-        canvas.setOnKeyPressed(e -> Main.keys.put(e.getCode(), true));
-        canvas.setOnKeyReleased(e -> Main.keys.put(e.getCode(), false));
+        canvas.setOnKeyPressed(e -> Main.keyPresses.add(e.getCode()));
 
         var graphicsContext = canvas.getGraphicsContext2D();
 
         // This will run the 'update' method 60 times per second
         // "sixty frames per second"
-
         var loop = new Timeline(
-                new KeyFrame(Duration.millis(1000.0/5), e -> { }),
-                new KeyFrame(Duration.millis(1000.0/60), e -> update(graphicsContext))
+                new KeyFrame(Duration.millis(1000.0/60), e -> update(graphicsContext, Main.keyPresses.poll()))
         );
 
         loop.setCycleCount(Animation.INDEFINITE);
@@ -60,10 +57,10 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    public void update(GraphicsContext graphicsContext) {
+    public void update(GraphicsContext graphicsContext, KeyCode keyPress) {
         graphicsContext.clearRect(0, 0, BOARD_WIDTH, BOARD_HEIGHT);
-
         var gameState = Main.game.export();
+
 
         for (var rowIndex = 0; rowIndex < NUM_ROWS; rowIndex++ ) {
             for (var columnIndex = 0; columnIndex < NUM_COLUMNS; columnIndex++) {
@@ -74,15 +71,17 @@ public class Main extends Application {
             }
         }
 
+        // Necessary, because the 'ordinal()' method on KeyCode enum is invoked
+        // to perform the switch expression coming up.
+        if (keyPress == null) return;
+
         // Let's check up on our keypresses.
-        if (Main.keys.getOrDefault(KeyCode.W, false)) {
-            game.moveNorth();
-        } else if (Main.keys.getOrDefault(KeyCode.S, false)) {
-            game.moveSouth();
-        } else if (Main.keys.getOrDefault(KeyCode.A, false)) {
-            game.moveWest();
-        } else if (Main.keys.getOrDefault(KeyCode.D, false)) {
-            game.moveEast();
+        switch (keyPress) {
+            case KeyCode.W -> game.moveNorth();
+            case KeyCode.A -> game.moveWest();
+            case KeyCode.S -> game.moveSouth();
+            case KeyCode.D -> game.moveEast();
+            default -> { }
         }
     }
 
