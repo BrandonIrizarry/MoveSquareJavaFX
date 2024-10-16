@@ -1,5 +1,7 @@
 plugins {
     application
+    id("org.javamodularity.moduleplugin") version "1.8.12"
+    id("org.openjfx.javafxplugin") version "0.0.13"
 }
 
 group = "xyz.brandonirizarry"
@@ -22,4 +24,9 @@ application {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+javafx {
+    version = "21"
+    modules("javafx.controls", "javafx.fxml", "javafx.media")
 }
