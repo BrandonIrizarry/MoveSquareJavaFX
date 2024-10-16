@@ -12,7 +12,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import xyz.brandonirizarry.movesquare.game.Game;
+import xyz.brandonirizarry.movesquarebackend.game.Game;
 
 import java.util.ArrayDeque;
 import java.util.Queue;
