@@ -1,4 +1,4 @@
-package xyz.brandonirizarry.demogame;
+package xyz.brandonirizarry.movesquarejavafx;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;

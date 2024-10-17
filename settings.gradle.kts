@@ -1,2 +1,1 @@
-rootProject.name = "demo-game"
-
+rootProject.name = "MoveSquareJavaFX"

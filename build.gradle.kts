@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "xyz.brandonirizarry"
-version = "1.0-SNAPSHOT"
+version = "1.0"
 
 repositories {
     maven {
@@ -27,8 +27,8 @@ dependencies {
 }
 
 application {
-    mainClass = "xyz.brandonirizarry.demogame.Main"
-    mainModule = "xyz.brandonirizarry.demoGame"
+    mainClass = "xyz.brandonirizarry.movesquarejavafx.Main"
+    mainModule = "xyz.brandonirizarry.moveSquareJavaFX"
 }
 
 tasks.test {
