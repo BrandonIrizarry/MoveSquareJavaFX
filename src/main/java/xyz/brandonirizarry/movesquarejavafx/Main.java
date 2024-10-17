@@ -33,7 +33,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("Demo frontend/backend architecture");
+        primaryStage.setTitle("MoveSquare game, using JavaFX frontend");
 
         var canvas = new Canvas(BOARD_WIDTH, BOARD_HEIGHT);
         canvas.setFocusTraversable(true);
